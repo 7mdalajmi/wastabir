@@ -1,0 +1,39 @@
+name: Official prayer times
+
+# Pulls each country's timetable from its own authority and republishes the packs the app
+# reads (times/v1) when they change. Jordan's ministry lists today → 31 December, and the new
+# year on 1 January: every day in January, then every Monday and on the 1st of each month
+# (which also keeps the schedule alive; GitHub pauses idle schedules after 60 days).
+on:
+  schedule:
+    - cron: "17 1 * 1 *"
+    - cron: "17 1 * * 1"
+    - cron: "17 1 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: official-times
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pull the authorities' tables
+        run: python times/build.py JO
+      - name: Publish what changed
+        run: |
+          git add times/v1
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Official prayer times $(date -u +%Y-%m-%d)"
+          git push

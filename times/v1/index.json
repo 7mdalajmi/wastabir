@@ -1,0 +1,23 @@
+{
+ "v": 1,
+ "updated": "2026-11-22T15:45:10Z",
+ "countries": {
+  "JO": {
+   "authority": {
+    "ar": "وزارة الأوقاف والشؤون والمقدسات الإسلامية",
+    "en": "Ministry of Awqaf, Islamic Affairs and Holy Places"
+   },
+   "source": "https://www.awqaf.gov.jo/ar/Pages/PrayerTime",
+   "files": {
+    "2026": {
+     "file": "JO-2026.json",
+     "sha": "1473bc00fd081dfd",
+     "bytes": 18312,
+     "from": "2026-11-22",
+     "to": "2026-12-31",
+     "zones": 15
+    }
+   }
+  }
+ }
+}
